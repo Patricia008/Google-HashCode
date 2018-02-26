@@ -4,42 +4,44 @@ def checkSlice(rows, r1i, c1i, r2i, c2i, minRequirement, maxNrcells):
 	tCount, mCount = 0, 0
 	nrOfIngredientsMet = False
 	nrOfCells = 0
-	for i1 in range(r1i, r2i):
-		for j1 in range(c1i, c2i):
+	for i1 in range(r1i, r2i+1):
+		for j1 in range(c1i, c2i+1):
 				if(rows[i1][j1] == 'T'):
 					tCount += 1
 				elif(rows[i1][j1] == 'M'):
 					mCount += 1
 				else:
-					return False
+					return False, False
 				nrOfCells+=1
 				if((tCount >= minRequirement) & (mCount >= minRequirement)):
 					nrOfIngredientsMet = True
 				if(nrOfCells > maxNrcells):
-					return False
-	return nrOfIngredientsMet
+					return False, True
+	return nrOfIngredientsMet, False
 
-def markSlice(rows, r1i, c1i, r2i, c2i):
-	for i1 in range(r1i, r2i):
-		for j1 in range(c1i, c2i):
-				rows[i1][j1] = '0'
+def markSlice(alreadyTriedPositions, r1i, c1i, r2i, c2i):
+	for i1 in range(r1i, r2i+1):
+		for j1 in range(c1i, c2i+1):
+				alreadyTriedPositions[i1][j1] = 1
 
-def getNextFreePosition(rows, nrRows, nrCols, alreadyTriedPositions):
+def getNextFreePosition(alreadyTriedPositions, nrRows, nrCols):
 	for i in range(0, nrRows):
 		for j in range(0, nrCols):
-			if(rows[i][j] != 0 & alreadyTriedPositions[i][j] != 1):
+			if(alreadyTriedPositions[i][j] != 1):
 				return i, j
 	return -1, -1
 
-def initializeArray(array):
+def initializeArray():
+	alreadyTriedPositions = []
 	for i in range(0,R):
 		columns = []
 		for j in range(0,C):
 			columns.append(0)
 		alreadyTriedPositions.append(columns)
+	return alreadyTriedPositions
 
-if(len(sys.argv)<2):
-	print("Not enough arguments.")
+if(len(sys.argv)<3):
+	print("Not enough arguments.\nargv[1] = inputFile\nargv[2] = output file")
 	quit()
 
 inputFile = open(sys.argv[1], "r")
@@ -56,14 +58,16 @@ outputText = ''
 
 r1, c1, r2, c2 = 0, 0, 0, 1
 switch = True
-alreadyTriedPositions = []
-initializeArray(alreadyTriedPositions)
-hasUnregisteredSlice = True
+r1Switch = True
+alreadyTriedPositions = initializeArray()
+hasUnregisteredSlice = False
 
-while ((r1 < R) & (c1 < C) & (r2 < R) & (c2 < C)):
-	if(checkSlice(rows, r1, c1, r2, c2, L, H)):
+while ((r1 >= 0) & (c1 >= 0) & (r2 >= 0) & (c2 >= 0)):
+	tooManyCells = False
+	valid, tooManyCells = checkSlice(rows, r1, c1, r2, c2, L, H)
+	if(valid):
 		hasUnregisteredSlice = True
-		if(switch):
+		if(switch & (r2 < R-1)):
 			# in order to advance on the main diagonal, r2 and c2 are incremented in turns
 			r2 +=1
 		else:
@@ -71,24 +75,33 @@ while ((r1 < R) & (c1 < C) & (r2 < R) & (c2 < C)):
 		switch = not switch
 	else:
 		if(not hasUnregisteredSlice):
-			if(switch):
-				# in order to advance on the main diagonal, r2 and c2 are incremented in turns
-				r2 +=1
+			if(tooManyCells):
+				alreadyTriedPositions[r1][c1] = 1
+				if(r1Switch & (r1 < R-1)):
+					# in order to advance on the main diagonal, r2 and c2 are incremented in turns
+					r1 +=1
+				else:
+					c1 +=1
+				r1Switch = not r1Switch
 			else:
-				c2 +=1
-			switch = not switch
+				if(switch & (r2 < R-1)):
+					# in order to advance on the main diagonal, r2 and c2 are incremented in turns
+					r2 +=1
+				else:
+					c2 +=1
+				switch = not switch
 			continue
 		#decrement to the last good slice
-		if(not switch):
+		if(not switch & (r2 > 0)):
 			r2 -=1
 		else:
 			c2 -=1
 		#mark slice in pizza
-		markSlice(rows, r1, c1, r2, c2)
+		markSlice(alreadyTriedPositions, r1, c1, r2, c2)
 		#save the values
 		nrOfSlices += 1
 		outputText += "{0} {1} {2} {3}\n".format(r1, c1, r2, c2)
-		r1, c1 = getNextFreePosition(rows, R, C, alreadyTriedPositions)
+		r1, c1 = getNextFreePosition(alreadyTriedPositions, R, C)
 		alreadyTriedPositions[r1][c1] = 1;
 		if(r1 == -1):
 			#there are no more valid positions
@@ -97,4 +110,7 @@ while ((r1 < R) & (c1 < C) & (r2 < R) & (c2 < C)):
 		hasUnregisteredSlice = False
 
 inputFile.close()
-print(outputText)
+outputFile = open(sys.argv[2], "w")
+outputFile.write(str(nrOfSlices)+"\n")
+outputFile.write(outputText)
+outputFile.close()
