@@ -121,9 +121,9 @@ rows = inputFile.read().split('\n')
 
 
 alreadyTriedPositions = []
-alreadyTriedPositions = initializeArray(alreadyTriedPositions)
+initializeArray(alreadyTriedPositions)
 markedSlices = []
-markedSlices = initializeArray(markedSlices)
+initializeArray(markedSlices)
 r1, c1 = 0, 0
 nrOfSlices = 0
 outputText = ''
