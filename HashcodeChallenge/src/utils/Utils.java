@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import dataStructures.Car;
@@ -17,7 +18,7 @@ public class Utils {
                 return o1.getWeight() > o2.getWeight() ? 1 : 0;
             }
         });
-	    return null;
+	    return routes.get(0);
 	}
 
 	public double getWeightByTimeToStart(Car car, Route route, Data data, int currentStep, int maxStep) {
@@ -33,7 +34,38 @@ public class Utils {
 	
 	public void setWeightsByTimeToStart(Car car, List<Route> routes, Data data, int currentStep, int maxStep) {
 		for(Route route: routes) {
+			//TODO change get weight function
 			route.setWeight(getWeightByTimeToStart(car, route, data, currentStep, maxStep));
 		}
 	}
+	
+	public int computeDistance(int r0, int c0, int r1, int c1) {
+		return Math.abs(r0 - r1) + Math.abs(c0 - c1);
+	}
+	
+	public Car getRoutesForCar(Car car, List<Route> inputRoutes, Data data) {
+		int currentStep = 0;
+		while(currentStep < data.getSteps()) {
+			Route route = getHighestWeight(car, (ArrayList<Route>)inputRoutes, data);
+			inputRoutes.remove(route);
+			car.addtoRoutes(route);
+			currentStep += computeDistance(car.getrPos(), car.getcPos(), route.getrStart(), route.getcStart()) + route.getLength();
+		}
+		
+		return car;
+	}
+	
+	public List<Car> getRoutesForAllCarsPerCarFirst(List<Car> cars, List<Route> inputRoutes, Data data){
+		Iterator<Car> it = cars.iterator();
+		while(it.hasNext()) {
+			getRoutesForCar(it.next(), inputRoutes, data);
+		}
+		return cars;
+	}
+	
+	public List<Car> getRoutesForAllCarsManyAtATime(){
+		//TODO
+		return null;
+	}
+	
 }

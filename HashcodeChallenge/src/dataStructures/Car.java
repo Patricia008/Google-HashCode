@@ -32,5 +32,7 @@ public class Car {
 		this.routes = routes;
 	}		
 	
-	
+	public void addtoRoutes(Route route) {
+		routes.add(route);
+	}
 }
