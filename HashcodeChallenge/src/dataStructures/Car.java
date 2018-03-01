@@ -1,9 +1,12 @@
 package dataStructures;
 
+import java.util.List;
+
 public class Car {
 	
 	private int rPos;
 	private int cPos;
+	private List<Route> routes;
 	
 	public Car(int rPos, int cPos) {
 		super();
@@ -22,6 +25,12 @@ public class Car {
 	public void setcPos(int cPos) {
 		this.cPos = cPos;
 	}
+	public List<Route> getRoutes() {
+		return routes;
+	}
+	public void setRoutes(List<Route> routes) {
+		this.routes = routes;
+	}		
 	
 	
 }
