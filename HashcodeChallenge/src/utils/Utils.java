@@ -45,7 +45,7 @@ public class Utils {
 	
 	public Car getRoutesForCar(Car car, Data data) {
 		int currentStep = 0;
-		while(currentStep < data.getSteps()) {
+		while(currentStep < data.getSteps() && data.getRoutes().size() > 0) {
 			Route route = getHighestWeight(car, data, currentStep);
 			data.getRoutes().remove(route);
 			car.addtoRoutes(route);

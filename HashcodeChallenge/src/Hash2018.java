@@ -14,10 +14,10 @@ public class Hash2018 {
 	public static void main(String[] args) {
 
 		processFile("resources/a_example");
-//		processFile("resources/b_should_be_easy");
-//		processFile("resources/c_no_hurry");
-//		processFile("resources/d_metropolis");
-//		processFile("resources/e_high_bonus");
+		processFile("resources/b_should_be_easy");
+		processFile("resources/c_no_hurry");
+		processFile("resources/d_metropolis");
+		processFile("resources/e_high_bonus");
 		
 	}
 
