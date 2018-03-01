@@ -1,6 +1,7 @@
 package dataStructures;
 
 public class Route {
+	
 	private int index;
 	private int rStart;
 	private int rEnd;
@@ -8,7 +9,8 @@ public class Route {
 	private int cEnd;
 	private int tStart;
 	private int tEnd;
-
+    private double weight;
+	
     public int getLength() {
         return Math.abs(rEnd - rStart) + Math.abs(cEnd - cStart);
     }
@@ -20,8 +22,6 @@ public class Route {
     public void setWeight(double weight) {
         this.weight = weight;
     }
-
-    private double weight;
 
 	public int getrStart() {
 		return rStart;
@@ -77,6 +77,10 @@ public class Route {
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+	
+	public int getTimeToTravel() {
+		return tEnd - tStart;
 	}
 
 	public String toString() {
