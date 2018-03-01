@@ -48,7 +48,7 @@ public double getWeightByTimeToStart(Car car, Route route, Data data, int curren
 		if(!possible) {
 			return 0;
 		}
-		return distanceToStart;
+		return timeToStart;
 	}
 	
 	public void setWeightsByTimeToStart(Car car, Data data, int currentStep) {
