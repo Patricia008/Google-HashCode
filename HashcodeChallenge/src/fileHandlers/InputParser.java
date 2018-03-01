@@ -49,10 +49,12 @@ public class InputParser
                 data.setSteps(Integer.parseInt(parts[5]));
             }
 
+            int index = 0;
             while((line = reader.readLine()) != null)
             {
                 String pars[] = line.split(" ");
                 Route r = new Route();
+                r.setIndex(index++);
                 r.setrStart(Integer.parseInt(pars[0]));
                 r.setcStart(Integer.parseInt(pars[1]));
                 r.setrEnd(Integer.parseInt(pars[2]));
