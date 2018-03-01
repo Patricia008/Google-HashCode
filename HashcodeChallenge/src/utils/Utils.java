@@ -49,6 +49,8 @@ public class Utils {
 			Route route = getHighestWeight(car, data, currentStep);
 			data.getRoutes().remove(route);
 			car.addtoRoutes(route);
+			car.setrPos(route.getrEnd());
+			car.setcPos(route.getcEnd());
 			currentStep += computeDistance(car.getrPos(), car.getcPos(), route.getrStart(), route.getcStart()) + route.getLength();
 		}
 		

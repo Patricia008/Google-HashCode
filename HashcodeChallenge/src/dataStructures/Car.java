@@ -1,12 +1,13 @@
 package dataStructures;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Car {
 	
 	private int rPos;
 	private int cPos;
-	private List<Route> routes;
+	private List<Route> routes = new ArrayList<>();
 	
 	public Car(int rPos, int cPos) {
 		super();
