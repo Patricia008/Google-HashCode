@@ -19,6 +19,7 @@ public class Utils {
                 return o1.getWeight() < o2.getWeight() ? 1 : 0;
             }
         });
+        System.out.println(data.getRoutes().get(0).getWeight());
 	    return data.getRoutes().get(0);
 	}
 
@@ -42,11 +43,11 @@ public class Utils {
 	
 public double getWeightByTimeToStart(Car car, Route route, Data data, int currentStep) {
         
-		double distanceToStart = Math.abs(car.getrPos() - route.getrStart()) + Math.abs(car.getcPos() - route.getcStart());
+		double distanceToStart = computeDistance(car.getrPos(), car.getcPos(), route.getrStart(), route.getcStart());
 		double timeToStart = currentStep + distanceToStart;
 		boolean possible = timeToStart < route.gettStart() && timeToStart + route.getTimeToTravel() < data.getSteps();
 		if(!possible) {
-			return 0;
+			return Integer.MAX_VALUE;
 		}
 		return timeToStart;
 	}
