@@ -66,7 +66,7 @@ public class Route {
 	}
 
 	public String toString() {
-		return "r_start = " + this.rStart + " c_start = " + this.cStart + " r_end = " + this.rEnd + " c_end = "
+		return "index = " + this.index + " r_start = " + this.rStart + " c_start = " + this.cStart + " r_end = " + this.rEnd + " c_end = "
 				+ this.cEnd + " t_start = " + this.tStart + " t_end = " + this.tEnd + "\n";
 	}
 }
