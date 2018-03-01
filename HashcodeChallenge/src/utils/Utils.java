@@ -12,7 +12,11 @@ public class Utils {
 
 	public Route getHighestWeight(Car car, Data data, int currentStep) {
 		//TODO
-		setWeightsByHighestBonus(car, data, currentStep);
+		setWeightsByTimeToStart(car, data, currentStep);
+		//setWeightsByTotalTime(car, data, currentStep);
+		//setWeightsByLength(car, data, currentStep);
+
+		
         data.getRoutes().sort(new Comparator<Route>() {
             @Override
             public int compare(Route o1, Route o2) {
@@ -22,6 +26,47 @@ public class Utils {
         System.out.println(data.getRoutes().get(0).getWeight());
 	    return data.getRoutes().get(0);
 	}
+
+
+
+	// for C sum of times as weight
+	public double getWeightByTotalTime(Car car, Route route, Data data, int currentStep) {
+
+		double distanceToStart = Math.abs(car.getrPos() - route.getrStart()) + Math.abs(car.getcPos() - route.getcStart());
+		double timeToStart = currentStep + distanceToStart;
+		boolean possible = timeToStart < route.gettStart() && timeToStart + route.getTimeToTravel() < data.getSteps();
+		if(!possible) {
+			return 0;
+		}
+		return distanceToStart + route.getTimeToTravel() + currentStep;
+	}
+
+	public void setWeightsByTotalTime(Car car, Data data, int currentStep) {
+		for(Route route: data.getRoutes()) {
+			//TODO change get weight function
+			System.out.println(getWeightByTotalTime(car, route, data, currentStep));
+			route.setWeight(getWeightByTotalTime(car, route, data, currentStep));
+		}
+	}
+
+
+
+
+
+	public double getWeightByLength(Car car, Route route, Data data, int currentStep) {
+
+		return route.getTimeToTravel();
+	}
+
+	public void setWeightsByLength(Car car, Data data, int currentStep) {
+		for(Route route: data.getRoutes()) {
+			//TODO change get weight function
+			route.setWeight(getWeightByLength(car, route, data, currentStep));
+		}
+	}
+
+
+
 
 	public double getWeightForHighestBonus(Car car, Route route, Data data, int currentStep) {
         
