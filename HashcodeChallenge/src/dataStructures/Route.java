@@ -27,7 +27,10 @@ public class Route
     public int gettEnd() { return tEnd; }
     public void settEnd(int tEnd) { this.tEnd = tEnd; }
 
-    public int getTotalSteps() {
-        return Math.abs(rEnd - rStart) + Math.abs(cEnd - cStart);
+    public String toString()
+    {
+        return "r_start = " + this.rStart + " c_start = " + this.cStart
+                + " r_end = " + this.rEnd + " c_end = " + this.cEnd
+                + " t_start = " + this.tStart + " t_end = " + this.tEnd + "\n";
     }
 }
