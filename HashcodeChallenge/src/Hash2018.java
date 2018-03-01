@@ -28,6 +28,7 @@ public class Hash2018 {
 		Utils utils = new Utils();
 		List<Car> cars = initializeCars(data.getNoCars());
 		
+		//TODO change car method
 		utils.getRoutesForAllCarsPerCarFirst(cars, data);
 		
         OutputGenerator generator = new OutputGenerator(fileName + ".out");
