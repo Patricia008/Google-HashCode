@@ -9,6 +9,16 @@ public class Route
     private int tStart;
     private int tEnd;
 
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    private double weight;
+
     public int getrStart() { return rStart; }
     public void setrStart(int rStart) { this.rStart = rStart; }
 
@@ -27,7 +37,7 @@ public class Route
     public int gettEnd() { return tEnd; }
     public void settEnd(int tEnd) { this.tEnd = tEnd; }
 
-    public int getTotalSteps() {
+    public int getLength() {
         return Math.abs(rEnd - rStart) + Math.abs(cEnd - cStart);
     }
 }
