@@ -1,3 +1,6 @@
+
+import java.lang.Math.*;
+
 public class Route
 {
     private int rStart;
@@ -24,4 +27,8 @@ public class Route
 
     public int gettEnd() { return tEnd; }
     public void settEnd(int tEnd) { this.tEnd = tEnd; }
+
+    public int getTotalSteps() {
+        return Math.abs(rEnd - rStart) + Math.abs(cEnd - cStart);
+    }
 }
