@@ -11,17 +11,36 @@ import dataStructures.Route;
 public class Utils {
 
 	public Route getHighestWeight(Car car, Data data, int currentStep) {
-		setWeightsByTimeToStart(car, data, currentStep);
+		//TODO
+		setWeightsByHighestBonus(car, data, currentStep);
         data.getRoutes().sort(new Comparator<Route>() {
             @Override
             public int compare(Route o1, Route o2) {
-                return o1.getWeight() > o2.getWeight() ? 1 : 0;
+                return o1.getWeight() < o2.getWeight() ? 1 : 0;
             }
         });
 	    return data.getRoutes().get(0);
 	}
 
-	public double getWeightByTimeToStart(Car car, Route route, Data data, int currentStep) {
+	public double getWeightForHighestBonus(Car car, Route route, Data data, int currentStep) {
+        
+		double distanceToStart = Math.abs(car.getrPos() - route.getrStart()) + Math.abs(car.getcPos() - route.getcStart());
+		double timeToStart = currentStep + distanceToStart;
+		boolean possible = timeToStart < route.gettStart() && timeToStart + route.getTimeToTravel() < data.getSteps();
+		if(!possible) {
+			return 0;
+		}
+		return timeToStart;
+	}
+	
+	public void setWeightsByHighestBonus(Car car, Data data, int currentStep) {
+		for(Route route: data.getRoutes()) {
+			//TODO change get weight function
+			route.setWeight(getWeightByTimeToStart(car, route, data, currentStep));
+		}
+	}
+	
+public double getWeightByTimeToStart(Car car, Route route, Data data, int currentStep) {
         
 		double distanceToStart = Math.abs(car.getrPos() - route.getrStart()) + Math.abs(car.getcPos() - route.getcStart());
 		double timeToStart = currentStep + distanceToStart;
@@ -65,9 +84,35 @@ public class Utils {
 		return cars;
 	}
 	
-	public List<Car> getRoutesForAllCarsManyAtATime(){
-		//TODO
-		return null;
+	public List<Car> getForEachRoute(List<Car> cars, Data data){
+		while(data.getRoutes().size() > 0) {
+			for(Car car: cars) {
+				//Route route = getHighestWeight(car, data, currentStep);		
+				car.addtoRoutes(data.getRoutes().get(0));
+				data.getRoutes().remove(0);
+				if (data.getRoutes().size() == 0) {
+					break;
+				}
+			}
+		}
+		
+		return cars;
+	}
+	
+	public List<Car> getRoutesForAllCarsManyAtATime(List<Car> cars, Data data){
+		int currentStep = 0;
+		while(currentStep < data.getSteps()) {
+			for(Car car: cars) {
+				Route route = getHighestWeight(car, data, currentStep);
+				data.getRoutes().remove(route);
+				car.addtoRoutes(route);
+				car.setrPos(route.getrEnd());
+				car.setcPos(route.getcEnd());
+				currentStep += computeDistance(car.getrPos(), car.getcPos(), route.getrStart(), route.getcStart()) + route.getLength();
+			}
+		}
+		
+		return cars;
 	}
 	
 }
