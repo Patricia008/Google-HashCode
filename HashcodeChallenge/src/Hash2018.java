@@ -1,17 +1,33 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import dataStructures.Car;
+import dataStructures.Data;
+import fileHandlers.InputParser;
+import fileHandlers.OutputGenerator;
 import utils.Utils;
+
+
 
 public class Hash2018 {
 
 	public static void main(String[] args) {
-		if (args.length < 3) {
-			System.out.println("Please provide the right nr. of arguments.");
-			return;
-		}
-		Hash2018 hash2018 = new Hash2018();
-	
-		Utils utils = new Utils();
-		//utils.getRoutesForAllCarsPerCarFirst(cars, inputRoutes, data);
+
+		processFile("resources/a_example");
 		
+	}
+
+	private static void processFile(String fileName) {
+		InputParser parser = new InputParser(fileName + ".in");
+	    Data data = parser.parse();
+		
+		Utils utils = new Utils();
+		List<Car> cars = new ArrayList<>();
+		
+		utils.getRoutesForAllCarsPerCarFirst(cars, data);
+		
+        OutputGenerator generator = new OutputGenerator(fileName + ".out");
+        generator.generate((ArrayList<Car>)cars);
 	}
 
 }

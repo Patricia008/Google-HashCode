@@ -9,6 +9,7 @@ public class Data
 	private int noRides;
 	private int bonusStart;
 	private int steps;
+	private ArrayList<Route> routes;
 
 	public int getRows() { return rows; }
 	public void setRows(int rows) { this.rows = rows; }
@@ -27,9 +28,13 @@ public class Data
 
 	public int getSteps() { return steps; }
 	public void setSteps(int steps) { this.steps = steps; }
-
-	private ArrayList<Route> routes;
-
+	
+	public ArrayList<Route> getRoutes() {
+		return routes;
+	}
+	public void setRoutes(ArrayList<Route> routes) {
+		this.routes = routes;
+	}
 	public Data()
 	{
 		this.routes = new ArrayList<Route>();
